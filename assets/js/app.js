@@ -146,6 +146,26 @@ var PET = {
 
     displayLogin: function() {
         console.log("Need to log in");
+        var goog = new firebase.auth.GoogleAuthProvider();
+        var fb = new firebase.auth.FacebookAuthProvider();
+
+        $('#fb-login').data('prov', fb);
+        $('#goog-login').data('prov', goog);
+
+        $('#auth p').on('click', function(){
+            var prov = $(this).data('prov');
+
+            firebase.auth().signInWithPopup(prov).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+
+                console.log(error, errorCode, errorMessage, credential);
+            });
+        });
     },
 
     generateTemplate: function(name, data) {
