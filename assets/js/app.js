@@ -119,7 +119,7 @@ var PET = {
         $('#auth').hide();
         
         var doRequests = function(name) {
-            that.requests[name] = $.ajax('/assets/json/' + name + '.json');
+            that.requests[name] = $.ajax('assets/json/' + name + '.json');
             return that.requests[name];
         };
 
@@ -136,7 +136,7 @@ var PET = {
             data.forEach(function(group) {
                 var slug = that.getSlug(group);
                 that.requests.group[slug] = 
-                    $.ajax('/assets/json/groups/' + slug + '.json');
+                    $.ajax('assets/json/groups/' + slug + '.json');
 
                 that.requests.group[slug].done(function(data){
                     that.group[slug] =  data;
