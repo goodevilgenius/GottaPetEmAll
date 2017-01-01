@@ -116,6 +116,7 @@ var PET = {
     // This is the main part of the app
     displayApp: function() {
         var that = this;
+        $('#auth').hide();
         
         var doRequests = function(name) {
             that.requests[name] = $.ajax('/assets/json/' + name + '.json');
@@ -146,13 +147,15 @@ var PET = {
 
     displayLogin: function() {
         console.log("Need to log in");
+        $('#auth').show();
+
         var goog = new firebase.auth.GoogleAuthProvider();
         var fb = new firebase.auth.FacebookAuthProvider();
 
         $('#fb-login').data('prov', fb);
         $('#goog-login').data('prov', goog);
 
-        $('#auth p').on('click', function(){
+        $('#auth button').on('click', function(){
             var prov = $(this).data('prov');
 
             firebase.auth().signInWithPopup(prov).catch(function(error) {
