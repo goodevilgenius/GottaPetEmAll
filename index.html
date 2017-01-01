@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gotta Pet 'Em All</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+</head>
+<body>
+
+<nav id="groups">
+    <script id="groups-template" type="text/x-handlebars-template">
+        <ul>
+            {{#each groups}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    </script>
+</nav>
+
+<section id="breeds">
+    <script id="breeds-template" type="text/x-handlebars-template">
+        <ul>
+            {{#each breeds}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    </script>
+</section>
+
+    
+<script type="text/javascript" src="assets/js/app.js"></script>
+</body>
+</html>
