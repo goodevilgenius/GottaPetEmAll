@@ -42,6 +42,9 @@ var PET = {
             that.displayDogs(that.allDogs);
         });
 
+        // Register Handlebars helper(s)
+        Handlebars.registerHelper('slug', this.getSlug);
+
         // Start by authenticating
         this.auth();
     },
