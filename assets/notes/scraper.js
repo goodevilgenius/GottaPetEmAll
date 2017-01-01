@@ -1,0 +1,1 @@
+JSON.stringify($('article.event h2').map(function(i){return $(this).text();}).toArray());
