@@ -4,11 +4,13 @@ var PET = {
 
     // Initialize variables
     user: {},
+    dbRef: null,
     requests: {},
     templates: {},
     allDogs: [],
     groups: [],
     group: {},
+    pets: {},
 
     // Called to initialize the app
     init: function() {
@@ -42,6 +44,22 @@ var PET = {
             that.displayDogs(that.allDogs);
         });
 
+        // Add listener for dog
+        $('#breeds').on('click', 'li', function() {
+            var breed = $(this).attr('id');
+            console.log('Incrementing ' + breed);
+
+            that.incDecBreed(breed);
+        });
+        $('#breeds').on('click', 'li button', function(evt){
+            evt.preventDefault();
+            evt.stopPropagation();
+
+            var which = $(this).attr('class');
+            var breed = $(this).parent('li').attr('id');
+            that.incDecBreed(breed, which);
+        });
+
         // Register Handlebars helper(s)
         Handlebars.registerHelper('slug', this.getSlug);
 
@@ -55,12 +73,43 @@ var PET = {
             if (user) {
                 // User is signed in.
                 that.user = user;
+                that.dbRef = firebase.database().ref(user.uid);
+                that.dbRef.on('child_changed', that.changeData);
+                that.dbRef.on('child_added', that.changeData);
+
                 that.displayApp();
             } else {
                 // No user is signed in.
                 that.displayLogin();
             }
         });
+    },
+
+    incDecBreed: function(breed, which) {
+        var count = this.pets[breed];
+        if (count == undefined) count = 0;
+
+        switch (which) {
+            case 'down':
+                if (count > 0) --count;
+                break;
+            default:
+                ++count;
+        }
+
+        this.dbRef.child(breed).set(count);
+        this.pets[breed] = count;
+
+    },
+
+    // Listener for firebase change
+    changeData: function(snapshot) {
+        // this refers to the dbref, not PET
+        var breed = snapshot.key;
+        var pets = snapshot.val();
+        PET.pets[breed] = pets;
+
+        $('#' + breed + ' .count').text(pets);
     },
 
     // Fetch data and display checklist
@@ -70,19 +119,17 @@ var PET = {
         
         var doRequests = function(name) {
             that.requests[name] = $.ajax('/assets/json/' + name + '.json');
-            that.requests[name].done(function(data) {
-                console.log('Showing ' + name);
-                that.generateTemplate(name, data);
-            });
             return that.requests[name];
         };
 
         console.log('Display app');
         doRequests('breeds').done(function(data){
+            that.displayDogs(data);
             that.allDogs = data;
             $('#allDogs').prop('disabled', false);
         });
         doRequests('groups').done(function(data){
+            that.generateTemplate('groups', data);
             that.groups = data;
             that.requests.group = {};
             data.forEach(function(group) {
@@ -110,7 +157,14 @@ var PET = {
     },
 
     displayDogs: function(dogs) {
-        this.generateTemplate('breeds', dogs);
+        var that = this;
+        var dogsObjects = dogs.map(function(dog) {
+            return {
+                name: dog,
+                count: that.pets[that.getSlug(dog)] || 0
+            };
+        });
+        this.generateTemplate('breeds', dogsObjects);
     },
 
     getSlug: function(name) {

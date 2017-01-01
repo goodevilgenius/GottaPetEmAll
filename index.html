@@ -25,7 +25,12 @@
     <script id="breeds-template" type="text/x-handlebars-template">
         <ul>
             {{#each breeds}}
-            <li id="{{slug this}}">{{this}}</li>
+            <li id="{{slug this.name}}" class="breed">
+                <button class="up">&#x2B06;</button>
+                <span class="count">{{this.count}}</span>
+                <button class="down">&#x2B07;</button>
+                {{this.name}}
+            </li>
             {{/each}}
         </ul>
     </script>
