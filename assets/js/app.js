@@ -31,11 +31,15 @@ var PET = {
         });
 
         // Add listener for groups
-        $('#groups').on('click', 'li', function(evt){
+        $('#groups').on('click', 'li', function(){
             var group = $(this).text();
             var slug = that.getSlug(group);
-            console.log(that.group[slug]);
             that.displayDogs(that.group[slug]);
+        });
+
+        // Add listener for allDogs
+        $('#allDogs').on('click', function(){
+            that.displayDogs(that.allDogs);
         });
 
         // Start by authenticating
@@ -73,6 +77,7 @@ var PET = {
         console.log('Display app');
         doRequests('breeds').done(function(data){
             that.allDogs = data;
+            $('#allDogs').prop('disabled', false);
         });
         doRequests('groups').done(function(data){
             that.groups = data;
