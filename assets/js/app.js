@@ -55,7 +55,7 @@ var PET = {
             evt.preventDefault();
             evt.stopPropagation();
 
-            var which = $(this).attr('class');
+            var which = $(this).hasClass('up') ? 'up' : 'down';
             var breed = $(this).parent('li').attr('id');
             that.incDecBreed(breed, which);
         });

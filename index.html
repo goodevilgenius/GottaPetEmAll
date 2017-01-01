@@ -2,19 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Gotta Pet 'Em All</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
 
+<div class="container-fluid">
+
+<header class="jumbotron">
+    <h1>Gotta Pet 'Em All</h1>
+</header>
+
 <section id="auth">
-    <button id="fb-login">Facebook Login</button>
-    <button id="goog-login">Google Login</button>
+    <button class="btn btn-primary" id="fb-login">Facebook Login</button>
+    <button class="btn btn-primary" id="goog-login">Google Login</button>
 </section>
 
-<button id="allDogs" disabled="disabled">Show All Dogs</button>
+<button class="btn btn-primary" id="allDogs" disabled="disabled">Show All Dogs</button>
 
 <nav id="groups">
     <script id="groups-template" type="text/x-handlebars-template">
@@ -31,9 +45,9 @@
         <ul>
             {{#each breeds}}
             <li id="{{slug this.name}}" class="breed">
-                <button class="up">&#x2B06;</button>
+                <button class="up btn btn-default">&#x2B06;</button>
                 <span class="count">{{this.count}}</span>
-                <button class="down">&#x2B07;</button>
+                <button class="down btn btn-default">&#x2B07;</button>
                 {{this.name}}
             </li>
             {{/each}}
@@ -41,7 +55,7 @@
     </script>
 </section>
 
-    
+</div>
 <script type="text/javascript" src="assets/js/app.js"></script>
 </body>
 </html>
